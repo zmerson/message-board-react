@@ -1,7 +1,7 @@
 {
   "name": "message-board",
   "version": "0.1.0",
-  "homepage": "https://zmerson.github.io/message-board",
+  "homepage": "https://zmerson.github.io/message-board-react",
   "private": true,
   "dependencies": {
     "@prisma/client": "^5.0.0",
