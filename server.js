@@ -7,28 +7,28 @@ const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client');
 const { get } = require('http');
+const rateLimit = require("express-rate-limit");
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
+//soon tm
 const prisma = new PrismaClient();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 const sslOptions = {
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./cert.pem'),
+  key: fs.readFileSync('C:/Users/z$/Desktop/keys/key.pem'),
+  cert: fs.readFileSync('C:/Users/z$/Desktop/keys/cert.pem'),
 };
 
 app.use(cors())
 
-const rateLimit = require("express-rate-limit");
 
-// Enable rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 150
 });
 
-// Apply the rate limiting middleware to your API routes
 app.use("/api/", limiter);
 
 //return user profile data
@@ -272,7 +272,7 @@ catch (error) {
   // res.status(500).json({ error: 'Internal Server Error' });
 }
 });
-//write an endpoint that gets all the boards for a given tag
+
 app.get('/api/tag/:name/', async (req, res) => {
   const { name } = req.params;
   try {
@@ -342,7 +342,7 @@ app.post('/api/:postId/newComment', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-//write a query that gets all the comments in a post
+
 app.get('/api/:postId/comments', async (req, res) => {
   const { postId } = req.params;
   //return the author of the comment
@@ -416,7 +416,6 @@ app.post('/api/:boardName/ban', async (req, res) => {
       boardId: board.id,
     }
   })
-  //if usurRole is null, create a new userRole here
   let bannedUserRole = "not banned";
   if (userRole != null) {
   console.log(`user's user role is ${JSON.stringify(userRole)}`)
@@ -464,12 +463,11 @@ app.post('/api/:boardName/ban', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
-  //upsert userRole to banned=true
-//update tags
+
 app.post('/api/board/tags/update', async (req, res) => {
   const { boardId, tags } = req.body;
   try {
-    // Update the tags for the board with the given boardId
+
     const updatedBoard = await prisma.board.update({
       where: { id: boardId },
       data: { tags: { set: tags } },
@@ -781,6 +779,8 @@ app.post('/api/login', async (req, res) => {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   });
+https.createServer(app).listen(80);
+
   const port = process.env.PORT || 5000;
 https.createServer(sslOptions, app).listen(port, () => {
   console.log(`Server running on port ${port}`);
