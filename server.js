@@ -16,10 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const sslOptions = {
-  key: fs.readFileSync('C:/Users/z$/Desktop/keys/key.pem'),
-  cert: fs.readFileSync('C:/Users/z$/Desktop/keys/cert.pem'),
-};
+// const sslOptions = {
+//   key: fs.readFileSync('C:/Users/z$/Desktop/keys/key.pem'),
+//   cert: fs.readFileSync('C:/Users/z$/Desktop/keys/cert.pem'),
+// };
 
 app.use(cors())
 

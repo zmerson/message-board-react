@@ -27,7 +27,7 @@ const NewPost: React.FunctionComponent = () => {
     e.preventDefault();
     const url = location.pathname
     const urlArray = url.split('/')
-    const boardName = urlArray[urlArray.length - 2]
+    const boardName = decodeURIComponent(urlArray[urlArray.length - 2])
     // Process the post data and image here (you can send them to the server, etc.)
     console.log('Content:', content);
     console.log('Image:', image);

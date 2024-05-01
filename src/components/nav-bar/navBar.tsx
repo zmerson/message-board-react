@@ -23,7 +23,7 @@ const NavBar = () => {
     <NavigationContainer className='pl-3 fixed'>
       <LogoContainer to='/'>Home</LogoContainer>
       <NavLinks>
-        <NavLink to='/create-account'>Create Account</NavLink>
+        <NavLink className="invisible sm:visible" to='/create-account'>Create Account</NavLink>
 
         <NavLink to='/board'>Boards</NavLink>
         {authenticated ? (
