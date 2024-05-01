@@ -1,6 +1,5 @@
 # Message board app 
 ## using React, Express, and a Prisma database
-## Deployed on [github pages](https://zmerson.github.io/message-board-react/)
 # features
 ### Boards are a public place for Posts
 ### Click on 'Boards' in the NavBar to view the list of boards, or create a board

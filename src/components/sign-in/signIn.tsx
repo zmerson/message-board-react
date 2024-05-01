@@ -38,7 +38,7 @@ const SignInComponent = () => {
   };
 
   return (
-    <div className='flex flex-col scroll m-5 bg-slate-600 p-2 '>
+    <div className='flex flex-col max-w-prose scroll m-5 bg-slate-600 p-2 '>
         <div  className='flex flex-col m-5 gap-1'> 
       <h2  className='text-3xl m-1 text-center'>Sign In</h2>
       <input
