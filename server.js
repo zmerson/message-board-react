@@ -782,6 +782,9 @@ app.post('/api/login', async (req, res) => {
 https.createServer(app).listen(80);
 
   const port = process.env.PORT || 5000;
-https.createServer(sslOptions, app).listen(port, () => {
+https.createServer(app).listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+// https.createServer(sslOptions, app).listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });

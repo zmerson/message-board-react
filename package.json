@@ -28,7 +28,7 @@
   },
   "scripts": {
     "build:css": "tailwind build src/index.css -o src/output.css",
-    "start": "npm install & npx prisma generate & node server.js",
+    "start": "npm run server",
     "start-react": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
