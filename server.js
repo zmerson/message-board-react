@@ -28,7 +28,9 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 150
 });
-
+app.get('/' , (req, res) => {
+  res.send('Hello World!')
+})
 app.use("/api/", limiter);
 
 //return user profile data
@@ -781,10 +783,13 @@ app.post('/api/login', async (req, res) => {
   });
 // https.createServer(app).listen(80);
 
-  const port = process.env.PORT || 5000;
-https.createServer(app).listen(port, () => {
+  const port = process.env.PORT || 8080;
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-});
+})
+  // https.createServer(app).listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
 // https.createServer(sslOptions, app).listen(port, () => {
 //   console.log(`Server running on port ${port}`);
 // });
