@@ -19,7 +19,7 @@ import './App.css';
 import './output.css';
 import TagList from './components/Tags/TagList';
 
-axios.defaults.baseURL = 'https://localhost:5000';
+axios.defaults.baseURL = 'http://localhost:5000';
 
 // Set default headers for all requests (e.g., for JWT authentication)
 //axios.defaults.headers.common['Authorization'] = 'Bearer ' + YOUR_JWT_TOKEN;
