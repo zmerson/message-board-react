@@ -16,10 +16,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const sslOptions = {
-  key: fs.readFileSync('C:/Users/z$/Desktop/keys/key.pem'),
-  cert: fs.readFileSync('C:/Users/z$/Desktop/keys/cert.pem'),
-};
 
 app.use(cors())
 
@@ -781,15 +777,8 @@ app.post('/api/login', async (req, res) => {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   });
-// https.createServer(app).listen(80);
 
   const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 })
-//   https.createServer(app).listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
-// https.createServer(sslOptions, app).listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
