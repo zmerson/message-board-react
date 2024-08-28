@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build:css": "tailwind build src/index.css -o src/output.css",
-    "start": "npm run dev",
+    "start": "npm run start-react",
     "start-react": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
@@ -38,7 +38,7 @@
     "eject": "react-scripts eject",
     "server": "node server.js",
     "dev": "concurrently \"npm run server\" \"npm run start-react\"",
-    "postinstall": "prisma generate"
+    "postinstall": "npm install && prisma generate"
   },
   "eslintConfig": {
     "extends": [
