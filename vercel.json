@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "src/components/home"
+
+        },
+        {
+            "source": "/message-board-react/api/boards",
+            "destination": "/server.js"
+        },
+        { "source": "/api/login", "destination": "/api/login.js" },
+        {
+            "source": "/api/board/info/:boardName/tags",
+            "destination": "/api/info.js"
+          },
+          {
+            "source": "api/hello", "destination": "/api/hello.js"
+            
+          }
+    ]
+}
