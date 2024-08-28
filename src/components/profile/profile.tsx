@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { PrismaClient } from '@prisma/client';
 import { AuthContextProps, useAuth } from '../../auth/authContext'
 import { PageHeader, buttonTW } from '../../styles/styles';
 import BoardListItem from '../board-list/boardListItem';

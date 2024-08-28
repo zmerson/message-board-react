@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.18.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build:css": "tailwind build src/index.css -o src/output.css",
-    "start": "npm run server",
+    "start": "npm run dev",
     "start-react": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",
@@ -37,7 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server.js",
-    "dev": "concurrently \"npm run server\" \"npm run start-react\""
+    "dev": "concurrently \"npm run server\" \"npm run start-react\"",
+    "postinstall": "prisma generate"
   },
   "eslintConfig": {
     "extends": [
