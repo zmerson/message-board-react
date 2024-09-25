@@ -31,9 +31,7 @@ const CreateAccount: React.FunctionComponent = () => {
         try {
           const response = await axios.post('/api/create-account', formData);
           console.log(response.data); // User data from the server (e.g., user ID, name, etc.)
-        // After creating the account, send the verification email
-        const emailResponse = await axios.post('/api/send-verification-email', { email: formData.email });
-        console.log(emailResponse.data);        } catch (error: any) {
+         } catch (error: any) {
           console.log('Error creating user:', error.response.data);
         }
         navigate('/auth')
