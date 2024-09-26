@@ -777,8 +777,15 @@ app.post('/api/login', async (req, res) => {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   });
-
   const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-})
+
+  https.createServer({
+    key: fs.readFileSync('/etc/ssl/key.pem'),
+    cert: fs.readFileSync('/etc/ssl/cert.pem')}, 
+      app).listen(port, () => {
+
+  })
+
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// })
