@@ -38,7 +38,7 @@ const CreateAccount: React.FunctionComponent = () => {
     }
       return (
         <div className='flex flex-col items-center align-center jusutify-center'>
-          <form  className='items-center w-2/5 bg-sky-400 gap-1 flex flex-col m-5 p-2 rounded-lg align-center justify-center' onSubmit={handleSubmit}>
+          <form className='items-center w-2/5 bg-sky-400 gap-1 flex flex-col m-5 p-2 rounded-lg align-center justify-center' onSubmit={handleSubmit}>
               <h2 className='text-2xl mb-2
               '>Create a New Account</h2>
             <div>

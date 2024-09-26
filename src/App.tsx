@@ -19,7 +19,7 @@ import './App.css';
 import './output.css';
 import TagList from './components/Tags/TagList';
 
-axios.defaults.baseURL = 'http://linux.zemersonapp.online/api';
+axios.defaults.baseURL = 'https://linux.zemersonapp.online/api';
 
 // Set default headers for all requests (e.g., for JWT authentication)
 //axios.defaults.headers.common['Authorization'] = 'Bearer ' + YOUR_JWT_TOKEN;
