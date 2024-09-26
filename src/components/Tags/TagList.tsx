@@ -13,7 +13,7 @@ const TagList: React.FunctionComponent = () => {
     const [boards, setBoards] = useState<TaglistProps[]>([{ id: 999, name: 'none'}]); 
     const { name } = useParams();
     useEffect(() => {
-        axios.get(`/api/tag/${name}`).then((response) => {
+        axios.get(`/tag/${name}`).then((response) => {
             console.log('boards', response.data);
             setBoards(response.data);
             const id = response.data[0]?.id;

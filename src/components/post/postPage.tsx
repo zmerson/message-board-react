@@ -52,7 +52,7 @@ const PostPage: React.FunctionComponent = () => {
       setPost(response.data);
       console.log('post', response.data)
       try{
-        const userRoleResponse: UserRolez = await axios.post(`/api/board/${boardName}/userRole`, {userId: user!.id})
+        const userRoleResponse: UserRolez = await axios.post(`/board/${boardName}/userRole`, {userId: user!.id})
         setRole(userRoleResponse)
         console.log(JSON.stringify(userRoleResponse) + "is your role")
       }
@@ -60,7 +60,7 @@ const PostPage: React.FunctionComponent = () => {
         console.log("error", error)
       }
       try{
-        const getComments = await axios.get(`/api/${id}/comments`);
+        const getComments = await axios.get(`/${id}/comments`);
         console.log('comments', getComments.data)
         setComments(getComments.data);
       }
@@ -72,11 +72,11 @@ const PostPage: React.FunctionComponent = () => {
     fetchPost();
   }, [id]);
   const getCommentDoots = async (comments: any[]) => {
-    const response = await axios.get(`/api/${id}/cdoots`);
+    const response = await axios.get(`/${id}/cdoots`);
     setPost({...post!, doots: response.data.doots});
   }
   const setCDoots = async (doots: number) => {
-    const response = await axios.post(`/api/${id}/cdoots`, {doots});
+    const response = await axios.post(`/${id}/cdoots`, {doots});
     setPost({...post!, doots: response.data.doots});
     alert(response.data)
   }
@@ -85,7 +85,7 @@ const PostPage: React.FunctionComponent = () => {
 
     if (user) {
       try {
-        const response = await axios.post(`/api/${id}/newComment`, {
+        const response = await axios.post(`/${id}/newComment`, {
           comment: comment,
           postId: id,
           userId: user.id,

@@ -111,11 +111,11 @@ const BoardInfo: React.FunctionComponent<BoardProps> = ({board}) => {
       }
       try {
       if (user){
-        const response = await axios.post(`/api/board/info/subscribed`, {userId: user.id, boardId: board.id}); 
+        const response = await axios.post(`/board/info/subscribed`, {userId: user.id, boardId: board.id}); 
         console.log(response)
         console.log("subscribed was " + response.data.subscribed)
         setIsLoading(false)
-        const userRole = await axios.post(`/api/board/${board.name}/userRole`, {userId: user.id, boardId: board.id})
+        const userRole = await axios.post(`/board/${board.name}/userRole`, {userId: user.id, boardId: board.id})
         //const userRole = JSON.stringify(role)
         console.log(userRole)
         setUserRole(userRole.data.role)
@@ -135,14 +135,14 @@ const BoardInfo: React.FunctionComponent<BoardProps> = ({board}) => {
 
   // useEffect(() => {
   //   const getTags = async () => {
-  //     // const response = await axios.get(`/api/board/info/${board.name}/tags`)
+  //     // const response = await axios.get(`/board/info/${board.name}/tags`)
   //     // return response
   //   }
     
   //  }, [tags])
 
   const getTags = async () => {
-    const response = await axios.get(`/api/board/info/${board.name}/tags`)
+    const response = await axios.get(`/board/info/${board.name}/tags`)
     setTags(JSON.stringify(response))
     return response
   }
@@ -155,7 +155,7 @@ const BoardInfo: React.FunctionComponent<BoardProps> = ({board}) => {
   // }
   const unSubscribe = async () => {
     setIsSubscribed(false)
-    const response = await axios.post(`/api/unsubscribe`, {userId: user!.id, boardId: board.id})  
+    const response = await axios.post(`/unsubscribe`, {userId: user!.id, boardId: board.id})  
     setIsSubscribed(false)
     window.alert("you have clicked unsubscribe")
   } 

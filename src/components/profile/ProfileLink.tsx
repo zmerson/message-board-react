@@ -6,7 +6,7 @@ const UserName = ({ userId } : any ) => {
   const [userName, setUserName] = useState('');
     const history = useNavigate();
 useEffect(() => {
-    axios.get(`/api/users/${userId}`)
+    axios.get(`/users/${userId}`)
             .then(response => {
                     const user = response.data;
                     setUserName(user.name);

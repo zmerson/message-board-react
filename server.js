@@ -27,10 +27,10 @@ const limiter = rateLimit({
 app.get('/' , (req, res) => {
   res.send('Hello World!')
 })
-app.use("/api/", limiter);
+app.use("/", limiter);
 
 //return user profile data
-app.get('/api/user/:name', async (req, res) => {
+app.get('/user/:name', async (req, res) => {
   const { name } = req.params;
   try {
     const user = await prisma.user.findFirst({
@@ -76,7 +76,7 @@ app.get('/api/user/:name', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/:id/cdoots', async (req, res) => {
+app.get('/:id/cdoots', async (req, res) => {
   const { id } = req.params;
   try {
     const doots = await prisma.comment.findUnique({
@@ -88,7 +88,7 @@ app.get('/api/:id/cdoots', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.post('/api/:id/cdoots', async (req, res) => {
+app.post('/:id/cdoots', async (req, res) => {
   const { id } = req.params;
   const { doots } = req.body;
   try {
@@ -111,7 +111,7 @@ app.post('/api/:id/cdoots', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-// app.post('/api/user/:id', async (req, res) => {
+// app.post('/user/:id', async (req, res) => {
 //   const { id } = req.params;
 //   try {
 //     const user = await prisma.user.findUnique({
@@ -124,7 +124,7 @@ app.post('/api/:id/cdoots', async (req, res) => {
 //   }
 // })
 
-app.post('/api/board/info/subscribed', async (req, res) => {
+app.post('/board/info/subscribed', async (req, res) => {
     const { boardId, userId } = req.body
     //console.log(`board id: ${boardId} , userid: ${userId}`)
     let subscribed;
@@ -177,7 +177,7 @@ try {
   }
 });
 
-app.get('/api/board/info/:boardName/tags', async (req, res) => {
+app.get('/board/info/:boardName/tags', async (req, res) => {
   const { boardName } = req.params.boardName
   const tags2 = await prisma.board.findFirst({
     where: {
@@ -188,7 +188,7 @@ app.get('/api/board/info/:boardName/tags', async (req, res) => {
 })
 app.use(express.json());
 
-app.get('/api/:boardId/tags', async (req, res) => {
+app.get('/:boardId/tags', async (req, res) => {
   const { boardId } = req.params
   try {
     const tags = await prisma.tag.findMany({
@@ -203,7 +203,7 @@ app.get('/api/:boardId/tags', async (req, res) => {
   }
 });
 
-app.post('/api/:boardName/tags', async (req, res) => {
+app.post('/:boardName/tags', async (req, res) => {
   try{
     const { boardName } = req.params
     // const { name, boardId } = req.body
@@ -271,7 +271,7 @@ catch (error) {
 }
 });
 
-app.get('/api/tag/:name/', async (req, res) => {
+app.get('/tag/:name/', async (req, res) => {
   const { name } = req.params;
   try {
     const boards = await prisma.board.findMany({
@@ -290,7 +290,7 @@ app.get('/api/tag/:name/', async (req, res) => {
     // res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-app.post('/api/board/:boardName/userRole', async (req, res) => {
+app.post('/board/:boardName/userRole', async (req, res) => {
   const { userId, boardId } = req.body
   const userRole = await prisma.userRole.findFirst({
     where: {
@@ -311,7 +311,7 @@ app.get('/post/:id', async (req, res) => {
   console.log(`post is ${JSON.stringify(post)}`)
   res.json(post);
 });
-app.post('/api/:postId/newComment', async (req, res) => {
+app.post('/:postId/newComment', async (req, res) => {
   const { postId } = req.params;
   const { comment, userId } = req.body;
   try {
@@ -341,7 +341,7 @@ app.post('/api/:postId/newComment', async (req, res) => {
   }
 });
 
-app.get('/api/:postId/comments', async (req, res) => {
+app.get('/:postId/comments', async (req, res) => {
   const { postId } = req.params;
   //return the author of the comment
 
@@ -376,7 +376,7 @@ app.get('/api/:postId/comments', async (req, res) => {
   }
 });
 
-// app.post('/api/:boardId/:postId/commentId', async (req, res) => {
+// app.post('/:boardId/:postId/commentId', async (req, res) => {
 //   const { boardId, postId, commentId } = req.params;
 //   const { userId, content } = req.body;
 
@@ -393,7 +393,7 @@ app.get('/api/:postId/comments', async (req, res) => {
 //     res.status(500).json({ error: 'Something went wrong' });
 //   }
 // });
-app.post('/api/:boardName/ban', async (req, res) => {
+app.post('/:boardName/ban', async (req, res) => {
   const { boardName } = req.params
   const { banName } = req.body
   try {
@@ -462,7 +462,7 @@ app.post('/api/:boardName/ban', async (req, res) => {
   }
 })
 
-app.post('/api/board/tags/update', async (req, res) => {
+app.post('/board/tags/update', async (req, res) => {
   const { boardId, tags } = req.body;
   try {
 
@@ -478,7 +478,7 @@ app.post('/api/board/tags/update', async (req, res) => {
 });
 
 //unused
-app.post('/api/board/info/:name', async (req, res) => {
+app.post('/board/info/:name', async (req, res) => {
     const { name } = req.params
 try {
   const subscribed = await prisma.userRole.findFirstOrThrow({
@@ -491,7 +491,7 @@ try {
 }
 });
 
-app.post('/api/unsubscribe', async (req, res) => {
+app.post('/unsubscribe', async (req, res) => {
    const { boardId, userId } = req.body
   try {
     userRole = await prisma.userRole.findFirst({
@@ -516,7 +516,7 @@ app.post('/api/unsubscribe', async (req, res) => {
   res.status(500).json({ error: 'Internal Server Error' });
 }
 });
-app.post('/api/newboard/set-owner', async (req, res) => {
+app.post('/newboard/set-owner', async (req, res) => {
   const { boardId, userId } = req.body
   console.log(boardId)
   try {
@@ -561,7 +561,7 @@ app.post('/api/newboard/set-owner', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })
-app.post('/api/subscribe', async (req, res) => {
+app.post('/subscribe', async (req, res) => {
    const { boardName, userId } = req.body
 try {
   const board = await prisma.board.findFirst({
@@ -611,7 +611,7 @@ try {
 }
 });
 
-app.get('/api/boards', async (req, res) => {
+app.get('/boards', async (req, res) => {
     
   try{
     const boards = await prisma.board.findMany({
@@ -633,7 +633,7 @@ app.get('/api/boards', async (req, res) => {
   }
   });
 
-app.post('/api/newboard', async (req, res) => {
+app.post('/newboard', async (req, res) => {
   const { name, userId } = req.body;
 
   try {
@@ -651,7 +651,7 @@ app.post('/api/newboard', async (req, res) => {
   }
 });
 
-app.post('/api/newpost', async (req, res) => {
+app.post('/newpost', async (req, res) => {
   const {title, content, authorId, boardName} = req.body;
   const userName = await prisma.user.findFirst({
     where: {
@@ -698,7 +698,7 @@ app.post('/api/newpost', async (req, res) => {
   }
 });
 
-app.post('/api/create-account', async (req, res) => {
+app.post('/create-account', async (req, res) => {
     const {email, name, password} = req.body;
     let user = false;
     try {
@@ -723,7 +723,7 @@ app.post('/api/create-account', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' }); 
     }
 });
-app.get('/api/board/:name', async (req, res) => {
+app.get('/board/:name', async (req, res) => {
   const { name } = req.params;
 
   try {
@@ -742,7 +742,7 @@ app.get('/api/board/:name', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-app.post('/api/my-posts', async (req, res) => {
+app.post('/my-posts', async (req, res) => {
   const { authorId } = req.body;
   try {
     const posts = await prisma.posts.findMany({
@@ -756,7 +756,7 @@ app.post('/api/my-posts', async (req, res) => {
   }
   res.json({posts});
 })
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
     const user = await prisma.user.findUnique({
@@ -777,6 +777,7 @@ app.post('/api/login', async (req, res) => {
       res.status(401).json({ error: 'Invalid credentials' });
     }
   });
+  
   const port = process.env.PORT || 5000;
 
   https.createServer({
@@ -785,7 +786,3 @@ app.post('/api/login', async (req, res) => {
       app).listen(port, () => {
 
   })
-
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// })

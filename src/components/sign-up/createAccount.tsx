@@ -29,7 +29,7 @@ const CreateAccount: React.FunctionComponent = () => {
       const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
-          const response = await axios.post('/api/create-account', formData);
+          const response = await axios.post('/create-account', formData);
           console.log(response.data); // User data from the server (e.g., user ID, name, etc.)
          } catch (error: any) {
           console.log('Error creating user:', error.response.data);
