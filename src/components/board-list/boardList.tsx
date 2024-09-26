@@ -24,7 +24,7 @@ const BoardList: React.FunctionComponent = () => {
   
   useEffect(() => {
 
-    axios.get('/api/boards').then((response) => {
+    axios.get('/boards').then((response) => {
       setBoards(response.data);
       console.log('boards', response.data);
     });

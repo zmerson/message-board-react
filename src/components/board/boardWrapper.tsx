@@ -14,7 +14,7 @@ export const BoardWrapper: React.FunctionComponent = () => {
     const [board, setBoard] = useState<BoardData | null>(null);
     const { name } = useParams();
     useEffect(() => {
-        axios.get(`/api/board/${name}`).then((response) => {
+        axios.get(`/board/${name}`).then((response) => {
         console.log('board', response.data);
         setBoard(response.data);
         });

@@ -12,7 +12,7 @@ const BoardListItem = (props: {board: BoardData}) => {
     const [tags, setTags] = useState<Tag[]>([]);
     
     useEffect( () => {
-            axios.get(`/api/${props.board.id}/tags`).then((response) => {
+            axios.get(`/${props.board.id}/tags`).then((response) => {
             setTags(response.data);
           });
         }, [props.board.name]);

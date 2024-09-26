@@ -7,16 +7,16 @@
 
         },
         {
-            "source": "/message-board-react/api/boards",
+            "source": "/message-board-react/boards",
             "destination": "/server.js"
         },
-        { "source": "/api/login", "destination": "/api/login.js" },
+        { "source": "/login", "destination": "/login.js" },
         {
-            "source": "/api/board/info/:boardName/tags",
-            "destination": "/api/info.js"
+            "source": "/board/info/:boardName/tags",
+            "destination": "/info.js"
           },
           {
-            "source": "api/hello", "destination": "/api/hello.js"
+            "source": "api/hello", "destination": "/hello.js"
             
           }
     ]

@@ -24,7 +24,7 @@ interface BoardProviderProps {
 //     // Fetch the board data here and set it using setBoard
 
 //     // const useBoard = async (board: BoardData) => {
-//     //     const response = await axios.get(`/api/board/${board.name}`);
+//     //     const response = await axios.get(`/board/${board.name}`);
 //     //     setBoard(response.data);
 //     // }
 //     return (
@@ -39,7 +39,7 @@ export const BoardsProvider: FunctionComponent<BoardsProviderProps> = ({ childre
   // Fetch the board data here and set it using setBoards
 
   const useBoards = async () => {
-    const response = await axios.get('/api/boards');
+    const response = await axios.get('/boards');
     setBoards(response.data);
     return response.data;
   }

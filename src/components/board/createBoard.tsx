@@ -34,11 +34,11 @@ const CreateBoard: React.FunctionComponent = () => {
             navigate('/auth')
             return;
         }
-      const response = await axios.post<Board>('/api/newboard', { name: boardName, userId: user.id });
+      const response = await axios.post<Board>('/newboard', { name: boardName, userId: user.id });
       const newBoardName = response.data.name;
       console.log("here")
       if (newBoardName){
-        const userRole = await axios.post<UserRole>('/api/newboard/set-owner', { boardId: response.data.id, userId: user.id });
+        const userRole = await axios.post<UserRole>('/newboard/set-owner', { boardId: response.data.id, userId: user.id });
 
       navigate(`/board/${newBoardName}`);
     }
