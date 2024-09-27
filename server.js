@@ -27,7 +27,7 @@ const limiter = rateLimit({
 app.get('/api' , (req, res) => {
   res.send('Hello World!')
 })
-app.use("/", limiter);
+app.use("/api", limiter);
 
 //return user profile data
 app.get('/api/user/:name', async (req, res) => {
@@ -764,8 +764,8 @@ app.post('/api/login', async (req, res) => {
     });
 
     console.log("user from server was: " + JSON.stringify(user))
-    if (!user || user.password !== password) {
-      console.log("error1 was: " + user.password + " vs password u put " + password)
+    if (!user || user?.password !== password) {
+      console.log("error1 was: " + user?.password + " vs password u put " + password)
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
