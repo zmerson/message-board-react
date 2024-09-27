@@ -25,7 +25,6 @@ axios.defaults.baseURL = 'https://zemersonapp.online/api';
 //axios.defaults.headers.common['Authorization'] = 'Bearer ' + YOUR_JWT_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-
 const App: React.FunctionComponent = () => {
 
   return (

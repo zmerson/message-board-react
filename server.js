@@ -24,7 +24,7 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 150
 });
-app.get('/' , (req, res) => {
+app.get('/api' , (req, res) => {
   res.send('Hello World!')
 })
 app.use("/", limiter);
@@ -611,7 +611,7 @@ try {
 }
 });
 
-app.get('/boards', async (req, res) => {
+app.get('api/boards', async (req, res) => {
     
   try{
     const boards = await prisma.board.findMany({
