@@ -18,7 +18,7 @@ const prisma = new PrismaClient();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.set('trust proxy', '127.0.0.1');
 
 app.use(cors())
 
