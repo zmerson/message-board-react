@@ -611,7 +611,7 @@ try {
 }
 });
 
-app.get('api/boards', async (req, res) => {
+app.get('/api/boards', async (req, res) => {
     
   try{
     const boards = await prisma.board.findMany({
