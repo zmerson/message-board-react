@@ -14,7 +14,7 @@ const SignInComponent = () => {
     const { state } = useLocation();
     const handleSignIn = async () => {
         try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post('/login', {
             email,
             password,
         });
@@ -38,9 +38,9 @@ const SignInComponent = () => {
   };
 
   return (
-    <div className='flex flex-col max-w-500 min-w-300 scroll m-5 bg-slate-600 p-2 '>
+    <div className='flex flex-col w-1/4 scroll m-5 bg-slate-600 p-2 '>
         <div  className='flex flex-col m-5 gap-1'> 
-      <h2  className='text-3xl m-1 text-center'>Sign In</h2>
+      <h2 className='text-3xl m-1 text-center'>Sign In</h2>
       <input
         type="text"
         placeholder="Email"
