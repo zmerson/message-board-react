@@ -196,7 +196,7 @@ app.get('/api/:boardId/tags', async (req, res) => {
   try {
     const tags = await prisma.tag.findMany({
       where: {
-        boardId: Number(boardId),
+        id: Number(boardId),
       },
     });
     res.json(tags);
