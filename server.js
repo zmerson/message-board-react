@@ -768,7 +768,7 @@ app.post('/api/login', async (req, res) => {
 
     console.log("user from server was: " + JSON.stringify(user))
     if (!user || user?.password !== password) {
-      console.log("error1 was: " + user?.password + " vs password u put " + password)
+      // console.log("error1 was: " + user?.password + " vs password u put " + password)
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
