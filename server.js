@@ -8,18 +8,20 @@ const jwt = require('jsonwebtoken')
 const { PrismaClient } = require('@prisma/client');
 const { get } = require('http');
 const rateLimit = require("express-rate-limit");
+const dotnev = require('dotenv');
+
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
+dotnev.config();
+
 const prisma = new PrismaClient();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const sslOptions = {
-  key: fs.readFileSync('C:/Users/z$/Desktop/keys/key.pem'),
-  cert: fs.readFileSync('C:/Users/z$/Desktop/keys/cert.pem'),
-};
+console.log("process.env.DATABASE_URL is " + process.env.DATABASE_URL)
+
 
 app.use(cors())
 
