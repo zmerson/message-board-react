@@ -9,6 +9,7 @@ const { PrismaClient } = require('@prisma/client');
 const { get } = require('http');
 const rateLimit = require("express-rate-limit");
 const dotnev = require('dotenv');
+const bcrypt = require('bcrypt');
 
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
@@ -707,6 +708,8 @@ app.post('/api/newpost', async (req, res) => {
 app.post('/api/create-account', async (req, res) => {
     const {email, name, password} = req.body;
     let user = false;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     try {
       user = await prisma.user.findUnique({
         where: { email },
@@ -716,7 +719,7 @@ app.post('/api/create-account', async (req, res) => {
           newuser = await prisma.user.create({
             //const hashedPassword = await bcrypt.hash(password, 10);
             data: {
-              email, name, password
+              email, name, password: hashedPassword
             }
           });
         res.status(201).json({ message: 'User created successfully', newuser });
@@ -764,13 +767,14 @@ app.post('/api/my-posts', async (req, res) => {
 })
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
+    
     try {
     const user = await prisma.user.findUnique({
       where: { email },
     });
-
+    const isMatch = await bcrypt.compare(password, user.password);  
     console.log("user from server was: " + JSON.stringify(user))
-    if (!user || user.password !== password) {
+    if (!user || !isMatch) {
       console.log("error1 was: " + user.password + " vs password u put " + password)
       return res.status(401).json({ error: 'Invalid credentials' });
     }

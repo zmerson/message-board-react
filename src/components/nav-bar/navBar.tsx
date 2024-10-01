@@ -24,6 +24,7 @@ const NavBar = () => {
       <LogoContainer to='/'>Home</LogoContainer>
       <NavLinks>
         <NavLink className="invisible sm:visible" to='/create-account'>Create Account</NavLink>
+        <a href="linux.zemersonapp.online">Linux</a>
 
         <NavLink to='/board'>Boards</NavLink>
         {authenticated ? (
