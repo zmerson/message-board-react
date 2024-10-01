@@ -41,10 +41,8 @@ const CreateAccount: React.FunctionComponent = () => {
           <form className='items-center w-2/5 bg-sky-400 gap-1 flex flex-col m-5 p-2 rounded-lg align-center justify-center' onSubmit={handleSubmit}>
               <h2 className='text-2xl mb-2
               '>Create a New Account</h2>
-              <h2 className="red">Warning - Passwords are stored in plain text. Do not re-use a personal password, consider a simple password s.a., 'test'</h2>
-              <h2>Email can be fake i.e., 'test@test.com'. Remember this for your login name. Username is for display only at the moment</h2>
-            <div>
-              
+              <h2>Email is used to log in.</h2>
+            <div>     
               <label></label>
               <input placeholder="Email" type="email" name="email" onChange={handleChange} />
             </div>
