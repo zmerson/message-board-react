@@ -702,30 +702,33 @@ app.post('/api/newpost', async (req, res) => {
 });
 
 app.post('/api/create-account', async (req, res) => {
-    const {email, name, password} = req.body;
-    let user = false;
-    try {
-      user = await prisma.user.findUnique({
-        where: { email },
-      })
-      if (!user){
-          console.log(" user was not found, creating user")
-          newuser = await prisma.user.create({
-            //const hashedPassword = await bcrypt.hash(password, 10);
-            data: {
-              email, name, password
-            }
-          });
-        res.status(201).json({ message: 'User created successfully', newuser });
-      } else {
-        return res.status(400).json({ error: 'User already exists' })
-      }
+  const {email, name, password} = req.body;
+  let user = false;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  try {
+    user = await prisma.user.findUnique({
+      where: { email },
+    })
+    if (!user){
+        console.log(" user was not found, creating user")
+        newuser = await prisma.user.create({
+          //const hashedPassword = await bcrypt.hash(password, 10);
+          data: {
+            email, name, password: hashedPassword
+          }
+        });
+      res.status(201).json({ message: 'User created successfully', newuser });
+    } else {
+      return res.status(400).json({ error: 'User already exists' })
     }
-    catch(error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ error: 'Internal server error' }); 
-    }
+  }
+  catch(error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: 'Internal server error' }); 
+  }
 });
+
 app.get('/api/board/:name', async (req, res) => {
   const { name } = req.params;
 
@@ -760,27 +763,27 @@ app.post('/api/my-posts', async (req, res) => {
   res.json({posts});
 })
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    console.log("user from server was: " + JSON.stringify(user))
-    if (!user || user?.password !== password) {
-      // console.log("error1 was: " + user?.password + " vs password u put " + password)
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-      const token = jwt.sign(user, 'your_secret_key', { expiresIn: '1h' });
-      
-      res.json({ user, token });
-    } catch(error) {
-      console.log("error2 was: " + error)
-      res.status(401).json({ error: 'Invalid credentials' });
-    }
-  });
+  const { email, password } = req.body;
   
+  try {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+  const isMatch = await bcrypt.compare(password, user.password);  
+  // console.log("user from server was: " + JSON.stringify(user))
+  if (!user || !isMatch) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+    const token = jwt.sign(user, 'your_secret_key', { expiresIn: '1h' });
+    
+    res.json({ user, token });
+  } catch(error) {
+    console.log("error2 was: " + error)
+    res.status(401).json({ error: 'Invalid credentials' });
+  }
+});
+
   const port = process.env.PORT || 5000;
 
   https.createServer({
