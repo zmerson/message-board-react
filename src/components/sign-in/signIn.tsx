@@ -14,7 +14,7 @@ const SignInComponent = () => {
     const { state } = useLocation();
     const handleSignIn = async () => {
         try {
-        const response = await axios.post('/login', {
+        const response = await axios.post('/api/login', {
             email,
             password,
         });
