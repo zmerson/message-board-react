@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build:css": "tailwind build src/index.css -o src/output.css",
-    "start": "npm run server",
+    "start": "npm run server && npm run start-react",
     "start-react": "react-scripts start",
     "build": "react-scripts build",
     "predeploy": "npm run build",

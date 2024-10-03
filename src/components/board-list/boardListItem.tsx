@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import { CardContainer } from "../../styles/styles"
 import { BoardData } from "./boardList"
 import { Link, NavLink } from "react-router-dom"
-import { Container, ListItemContainer } from "./boardListStyles"
+import { ListItemContainer } from "./boardListStyles"
 import axios from "axios"
 import { Tag } from "@prisma/client"
 import TagLink from "../Tags/tagLink"
+import Container from "../templates/container"
 
 
 const BoardListItem = (props: {board: BoardData}) => {
@@ -17,9 +18,9 @@ const BoardListItem = (props: {board: BoardData}) => {
           });
         }, [props.board.name]);
     return (
-        <div className="">    
-            <Link to={`/board/${props.board.name}`}>
-                <div className='border-solid border-2 border-slate-600 text-xl text-center w-full'>
+        <Container className="w-full mt-1 mb-1 p-0 hover:bg-sky-600 pointer">    
+            <Link className="p-10" to={`/board/${props.board.name}`}>
+                <div className='border-solid text-xl text-center w-full'>
                 {props.board.name}
                 </div>
             </Link>
@@ -29,7 +30,7 @@ const BoardListItem = (props: {board: BoardData}) => {
                         ))
                     }
                 </div>
-        </div>
+        </Container>
     )
 }
 export default BoardListItem
