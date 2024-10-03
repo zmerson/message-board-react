@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth  } from '../../auth/authContext'
 import { buttonTW } from '../../styles/styles';
+import Container from '../templates/container';
 
 interface RegisterFormData {
     email: string;
@@ -39,24 +40,27 @@ const CreateAccount: React.FunctionComponent = () => {
         navigate('/auth')
     }
       return (
-        <div className='flex flex-col items-center align-center jusutify-center'>
-          <form  className='items-center w-2/5 bg-sky-400 gap-1 flex flex-col m-5 p-2 rounded-lg align-center justify-center' onSubmit={handleSubmit}>
+        <div className='flex flex-col mt-10 items-center align-center jusutify-center'>
+        <Container>
+          <form onSubmit={handleSubmit} className='min-fit'>
+          {/* <form  className='items-center w-2/5 bg-sky-400 gap-1 flex flex-col m-5 p-2 rounded-lg align-center justify-center' onSubmit={handleSubmit}> */}
               <h2 className='text-2xl mb-2
               '>Create a New Account</h2>
             <div>
-              <label></label>
-              <input placeholder="Email" type="email" name="email" onChange={handleChange} />
+              <label>Email</label>
+              <input className='w-full bg-zinc-200 text-slate-950 rounded' placeholder="Email" type="email" name="email" onChange={handleChange} />
             </div>
             <div>
-              <label></label>
-              <input  placeholder="Username" type="text" name="name" onChange={handleChange} />
+              <label>Username</label>
+              <input className='w-full bg-zinc-300 text-slate-950 rounded'  w-max-100 placeholder="Username" type="text" name="name" onChange={handleChange} />
             </div>
             <div>
-              <label></label>
-              <input placeholder="Password" type="password" name="password" onChange={handleChange} />
+              <label>Password</label>
+              <input className='w-full bg-zinc-500 text-slate-950 rounded' placeholder="Password" type="password" name="password" onChange={handleChange} />
             </div>
-            <button  className={buttonTW} type="submit">Register</button>
+            <button  className={buttonTW + " mt-5"} type="submit">Register</button>
           </form>
+        </Container>
         </div>
       );
     };

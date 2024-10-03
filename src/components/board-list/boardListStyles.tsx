@@ -7,6 +7,7 @@ export const Container = styled.div`
     export const List = styled.ul`
     list-style-type: none;
     padding: 0;
+    width: 100%;
     `
 export const ListItemContainer = styled.li`
     display: flex;

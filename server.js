@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-console.log("process.env.DATABASE_URL is " + process.env.DATABASE_URL)
 
 
 app.use(cors())
@@ -200,7 +199,7 @@ app.get('/api/:boardId/tags', async (req, res) => {
   try {
     const tags = await prisma.tag.findMany({
       where: {
-        boardId: Number(boardId),
+        id: Number(boardId),
       },
     });
     res.json(tags);
@@ -767,11 +766,12 @@ app.post('/api/my-posts', async (req, res) => {
 })
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    
+    console.log(req.body)
     try {
     const user = await prisma.user.findUnique({
       where: { email },
     });
+    console.log(user)
     const isMatch = await bcrypt.compare(password, user.password);  
     console.log("user from server was: " + JSON.stringify(user))
     if (!user || !isMatch) {
