@@ -10,16 +10,18 @@ const { get } = require('http');
 const rateLimit = require("express-rate-limit");
 const dotnev = require('dotenv');
 const bcrypt = require('bcrypt');
+
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
-
 dotnev.config();
+
 const prisma = new PrismaClient();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.set('trust proxy', '127.0.0.1');
+
+
 
 app.use(cors())
 
@@ -703,32 +705,33 @@ app.post('/api/newpost', async (req, res) => {
 });
 
 app.post('/api/create-account', async (req, res) => {
-  const {email, name, password} = req.body;
-  let user = false;
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  try {
-    user = await prisma.user.findUnique({
-      where: { email },
-    })
-    if (!user){
-        console.log(" user was not found, creating user")
-        newuser = await prisma.user.create({
-          //const hashedPassword = await bcrypt.hash(password, 10);
-          data: {
-            email, name, password: hashedPassword
-          }
-        });
-      res.status(201).json({ message: 'User created successfully', newuser });
-    } else {
-      return res.status(400).json({ error: 'User already exists' })
+    const {email, name, password} = req.body;
+    let user = false;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    try {
+      user = await prisma.user.findUnique({
+        where: { email },
+      })
+      if (!user){
+          console.log(" user was not found, creating user")
+          newuser = await prisma.user.create({
+            //const hashedPassword = await bcrypt.hash(password, 10);
+            data: {
+              email, name, password: hashedPassword
+            }
+          });
+        res.status(201).json({ message: 'User created successfully', newuser });
+      } else {
+        return res.status(400).json({ error: 'User already exists' })
+      }
     }
-  }
-  catch(error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: 'Internal server error' }); 
-  }
-});
+    catch(error) {
+      console.error('Error creating user:', error);
+      res.status(500).json({ error: 'Internal server error' }); 
+    }
+  });
+
 
 app.get('/api/board/:name', async (req, res) => {
   const { name } = req.params;
