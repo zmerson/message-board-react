@@ -5,7 +5,7 @@ const https = require('https')
 const fs = require('fs')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
-const { PrismaClient } = require('@prisma/client');
+const { prisma } = require('./generated/prisma/client');
 const { get } = require('http');
 const rateLimit = require("express-rate-limit");
 const dotnev = require('dotenv');
@@ -14,8 +14,6 @@ const bcrypt = require('bcrypt');
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
 dotnev.config();
-
-const prisma = new PrismaClient();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -770,18 +768,24 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   
   try {
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
-  const isMatch = await bcrypt.compare(password, user.password);  
-  // console.log("user from server was: " + JSON.stringify(user))
-  if (!user || !isMatch) {
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
-
+    let user = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      user = await prisma.user.findUnique({
+        where: { name: email },
+      });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);  
+    // console.log("user from server was: " + JSON.stringify(user))
+    if (!user || !isMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }  
+    if (isMatch && user) {
     const token = jwt.sign(user, 'your_secret_key', { expiresIn: '1h' });
     
     res.json({ user, token });
+    }
   } catch(error) {
     console.log("error2 was: " + error)
     res.status(401).json({ error: 'Invalid credentials' });
@@ -790,9 +794,12 @@ app.post('/api/login', async (req, res) => {
 
   const port = process.env.PORT || 5000;
 
-  https.createServer({
-    key: fs.readFileSync('/etc/ssl/key.pem'),
-    cert: fs.readFileSync('/etc/ssl/cert.pem')}, 
-      app).listen(port, () => {
-        console.log("listening on port " + port)
+  https.createServer(app).listen(port, () => {
+    console.log("listening on port " + port)
   })
+  // https.createServer({
+  //   key: fs.readFileSync('/etc/ssl/key.pem'),
+  //   cert: fs.readFileSync('/etc/ssl/cert.pem')}, 
+  //     app).listen(port, () => {
+  //       console.log("listening on port " + port)
+  // })

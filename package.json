@@ -5,26 +5,28 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@prisma/ ": "^5.18.0",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
-    "bcrpyt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "body-parser": "^1.20.2",
     "concurrently": "^8.2.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "express-rate-limit": "^7.2.0",
     "fuse.js": "^7.0.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.1",
     "jwt-decode": "^3.1.2",
+    "pg": "^8.23.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.2",
-    "react-scripts": "5.0.1",
+    "react-router-dom": "^7.18.2",
+    "react-scripts": "^5.0.1",
     "styled-components": "^6.0.5",
     "twin.macro": "^3.4.1",
     "web-vitals": "^2.1.4"
@@ -61,7 +63,13 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
+    "@types/node": "^26.2.0",
+    "@types/pg": "^8.23.1",
+    "ajv": "^8.20.0",
     "gh-pages": "^6.1.1",
-    "tailwindcss": "^3.4.3"
+    "prisma": "^6.12.0",
+    "tailwindcss": "^3.4.3",
+    "tsx": "^4.23.12",
+    "typescript": "^4.9.5"
   }
 }
