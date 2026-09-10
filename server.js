@@ -319,7 +319,7 @@ app.post('/api/:postId/newComment', async (req, res) => {
   const { postId } = req.params;
   const { comment, userId } = req.body;
   try {
-    userName = await prisma.user.findFirst({
+    const userName = await prisma.user.findFirst({
     where: {
       id: userId,
     },
@@ -764,6 +764,7 @@ app.post('/api/my-posts', async (req, res) => {
   }
   res.json({posts});
 })
+
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   
