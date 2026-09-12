@@ -1,15 +1,14 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const cors = require('cors')
-const https = require('https')
-const fs = require('fs')
-const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
-const { prisma } = require('./generated/prisma/client');
-const { get } = require('http');
-const rateLimit = require("express-rate-limit");
-const dotnev = require('dotenv');
-const bcrypt = require('bcrypt');
+import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
+import { prisma } from './lib/prisma';
+import rateLimit from 'express-rate-limit';
+import dotnev from 'dotenv';
+import bcrypt from 'bcrypt';
 
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
