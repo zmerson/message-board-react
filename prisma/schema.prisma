@@ -1,6 +1,20 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 model Post {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
@@ -105,14 +119,4 @@ enum Role {
   MODERATOR_TIER_3
   OWNER
   STANDARD
-}
-
-generator client {
-  provider = "prisma-client-js" 
-  output = "../generated/prisma/client"
-}
-
-datasource db {
-  provider = "postgresql"
-  // relationMode = "prisma"
 }
