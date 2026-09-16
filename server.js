@@ -794,9 +794,6 @@ app.post('/api/login', async (req, res) => {
 
   const port = process.env.PORT || 5000;
 
-  https.createServer({
-    key: fs.readFileSync('/etc/ssl/key.pem'),
-    cert: fs.readFileSync('/etc/ssl/cert.pem')}, 
-      app).listen(port, () => {
-        console.log("listening on port " + port)
-  })
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+})
