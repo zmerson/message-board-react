@@ -35,7 +35,7 @@ const NewPost: React.FunctionComponent = () => {
     // Reset the form after submission
     setContent('');
     setImage(null);
-    const response = await axios.post<BoardPost>('/api/newpost', { title: title, content: content, authorId: 1, boardName: boardName});
+    const response = await axios.post<BoardPost>('/newpost', { title: title, content: content, authorId: 1, boardName: boardName});
     const newPostId = await response.data.id;
     // redirect to the new post
     window.location.href = `/board/${name}/post/${newPostId}`

@@ -1,26 +1,23 @@
-const express = require('express');
+import express from 'express';
 const app = express();
-const cors = require('cors')
-const https = require('https')
-const fs = require('fs')
-const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken')
-const { PrismaClient } = require('@prisma/client');
-const { get } = require('http');
-const rateLimit = require("express-rate-limit");
-const dotnev = require('dotenv');
-const bcrypt = require('bcrypt');
+import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
+import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
+import { prisma } from './lib/prisma';
+import rateLimit from 'express-rate-limit';
+import dotnev from 'dotenv';
+import bcrypt from 'bcrypt';
 
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
 dotnev.config();
 
-const prisma = new PrismaClient();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.set('trust proxy', '127.0.0.1');
 
 
 app.use(cors())
@@ -30,10 +27,10 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 150
 });
-app.get('/' , (req, res) => {
+app.get('/api' , (req, res) => {
   res.send('Hello World!')
 })
-app.use("/api/", limiter);
+app.use("/api", limiter);
 
 //return user profile data
 app.get('/api/user/:name', async (req, res) => {
@@ -308,7 +305,7 @@ app.post('/api/board/:boardName/userRole', async (req, res) => {
   res.json(userRole)
 })
 // server.js
-app.get('/post/:id', async (req, res) => {
+app.get('/api/post/:id', async (req, res) => {
   const post = await prisma.post.findUnique({
     where: {
       id: Number(req.params.id),
@@ -321,7 +318,7 @@ app.post('/api/:postId/newComment', async (req, res) => {
   const { postId } = req.params;
   const { comment, userId } = req.body;
   try {
-    userName = await prisma.user.findFirst({
+    const userName = await prisma.user.findFirst({
     where: {
       id: userId,
     },
@@ -730,7 +727,9 @@ app.post('/api/create-account', async (req, res) => {
       console.error('Error creating user:', error);
       res.status(500).json({ error: 'Internal server error' }); 
     }
-});
+  });
+
+
 app.get('/api/board/:name', async (req, res) => {
   const { name } = req.params;
 
@@ -764,38 +763,40 @@ app.post('/api/my-posts', async (req, res) => {
   }
   res.json({posts});
 })
+
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
-    console.log(req.body)
-    try {
-    const user = await prisma.user.findUnique({
+  const { email, password } = req.body;
+  
+  try {
+    let user = await prisma.user.findUnique({
       where: { email },
     });
-    console.log(user)
+    if (!user) {
+      user = await prisma.user.findUnique({
+        where: { name: email },
+      });
+    }
     const isMatch = await bcrypt.compare(password, user.password);  
-    console.log("user from server was: " + JSON.stringify(user))
+    // console.log("user from server was: " + JSON.stringify(user))
     if (!user || !isMatch) {
-      console.log("error1 was: " + user.password + " vs password u put " + password)
       return res.status(401).json({ error: 'Invalid credentials' });
+    }  
+    if (isMatch && user) {
+    const token = jwt.sign(user, 'your_secret_key', { expiresIn: '1h' });
+    
+    res.json({ user, token });
     }
-
-      const token = jwt.sign(user, 'your_secret_key', { expiresIn: '1h' });
-      
-      res.json({ user, token });
-    } catch(error) {
-      console.log("error2 was: " + error)
-      res.status(401).json({ error: 'Invalid credentials' });
-    }
-  });
-// https.createServer(app).listen(80);
+  } catch(error) {
+    console.log("error2 was: " + error)
+    res.status(401).json({ error: 'Invalid credentials' });
+  }
+});
 
   const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-})
-//   https.createServer(app).listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
-// https.createServer(sslOptions, app).listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
+
+  https.createServer({
+    key: fs.readFileSync('/etc/ssl/key.pem'),
+    cert: fs.readFileSync('/etc/ssl/cert.pem')}, 
+      app).listen(port, () => {
+        console.log("listening on port " + port)
+  })

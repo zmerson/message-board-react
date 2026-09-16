@@ -19,12 +19,11 @@ import './App.css';
 import './output.css';
 import TagList from './components/Tags/TagList';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = 'https://zemersonapp.online/api';
 
 // Set default headers for all requests (e.g., for JWT authentication)
 //axios.defaults.headers.common['Authorization'] = 'Bearer ' + YOUR_JWT_TOKEN;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
 
 const App: React.FunctionComponent = () => {
 

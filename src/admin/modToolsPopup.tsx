@@ -42,7 +42,7 @@ const ModToolsPopup: React.FunctionComponent<ModToolsPopupProps> = ({ tool, boar
   function changeTags() {
     const tagsObj: Tag = { name: tags, boardId: boardId}
     console.log('changing tags', tagsObj)
-  const response = axios.post(`./api/${boardName}/tags`, {name: tags, boardId: boardId})
+  const response = axios.post(`./${boardName}/tags`, {name: tags, boardId: boardId})
   console.log(response)
   }
   function changeDescription() {
@@ -59,7 +59,7 @@ const ModToolsPopup: React.FunctionComponent<ModToolsPopupProps> = ({ tool, boar
   }
   async function banUser(){
     console.log(boardName)
-    const userRole = await axios.post(`./api/${boardName}/ban`, {banName})
+    const userRole = await axios.post(`./${boardName}/ban`, {banName})
   }
   function setBanner(){
       

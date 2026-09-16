@@ -36,7 +36,7 @@ const Board: React.FunctionComponent = () => {
     console.log('board use effect')
 
     const fetchBoard = async () => {
-      const response = await axios.get<BoardData>(`/api/board/${boardName}`);
+      const response = await axios.get<BoardData>(`/board/${boardName}`);
       try {
         // Fetch the board data from the API using the board id
         // console.log('res', response)
@@ -57,7 +57,7 @@ const Board: React.FunctionComponent = () => {
     const fetchRole = async () => {
       if (board  && user) {
       console.log("getting your role")
-      const userRoleResponse: UserRolez = await axios.post(`/api/board/${board.name}/userRole`, {userId: user.id, boardId: board.id})
+      const userRoleResponse: UserRolez = await axios.post(`/board/${board.name}/userRole`, {userId: user.id, boardId: board.id})
       try {
         console.log(JSON.stringify(userRoleResponse) + "is your role")
         setRole(userRoleResponse)
@@ -81,7 +81,7 @@ const Board: React.FunctionComponent = () => {
   //   const fetchRole = async () => {
   //     if (board) {
   //     console.log("getting your role")
-  //     const userRoleResponse: UserRolez = await axios.post(`/api/board/${board!.name}/userRole`, {userId: user!.id})
+  //     const userRoleResponse: UserRolez = await axios.post(`/board/${board!.name}/userRole`, {userId: user!.id})
   //     try {
   //       console.log(JSON.stringify(userRoleResponse) + "is your role")
   //       setRole(userRoleResponse) //(userRoleResponse as UserRolez).banned = true && setRole(userRoleResponse)}

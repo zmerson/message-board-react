@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { PrismaClient } from '@prisma/client';
 import { AuthContextProps, useAuth } from '../../auth/authContext'
 import { PageHeader, buttonTW } from '../../styles/styles';
 import BoardListItem from '../board-list/boardListItem';
@@ -47,11 +48,11 @@ const Profile = () => {
       let profileReq;
       try {
         if (name !== undefined) {
-          profileReq = await axios.get(`/api/user/${name}`);
+          profileReq = await axios.get(`/user/${name}`);
           setProfile(profileReq.data);
         }else if (user?.username){
           console.log(user.username)
-          profileReq = await axios.get(`/api/user/${user.username}`);
+          profileReq = await axios.get(`/user/${user.username}`);
           setProfile(profileReq.data);
         }else {
           console.log('no user')
@@ -65,7 +66,7 @@ const Profile = () => {
       }
     // console.log('profile', profile)
     // console.log('profileReq', profileReq?.data)
-      // const response = await axios.get(`/api/user/${name}`);
+      // const response = await axios.get(`/user/${name}`);
       // console.log('profile is ', response.data)
       // console.log('getprofile is ', getProfile.data)
       // setProfileState(getProfile.data);

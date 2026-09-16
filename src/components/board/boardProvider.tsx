@@ -24,7 +24,7 @@
 //     // Fetch the board data here and set it using setBoards
   
 //     const useBoards = async () => {
-//       await axios.get('/api/boards').then((response) => {
+//       await axios.get('/boards').then((response) => {
 //         setBoards(response.data);
 //         return boards;
 //       });
