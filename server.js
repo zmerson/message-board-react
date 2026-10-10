@@ -9,28 +9,137 @@ import { prisma } from './lib/prisma';
 import rateLimit from 'express-rate-limit';
 import dotnev from 'dotenv';
 import bcrypt from 'bcrypt';
+import session from 'express-session';
 
 //separate into multiple files when it gets too big - https://stackoverflow.com/questions/23923365/how-to-separate-routes-on-node-js-and-express-4
 //soon tm
 dotnev.config();
+if (!process.env.TURNSTILE_SECRET_KEY || !process.env.SESSION_SECRET) {
+  throw new Error("Missing Turnstile or session secret environment variable");
+}
+
+
+// if (process.env.NODE_ENV === "production") {
+//   app.set("trust proxy", 1);
+// }
+
+app.use(express.json({ limit: "20kb" }));
+
+app.use(
+  session({
+    name: "site_access",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 12 * 60 * 60 * 1000, // 12 hours
+      path: "/",
+    },
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.set('trust proxy', '127.0.0.1');
+ 
 
 
 app.use(cors())
+
 
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 150
 });
-app.get('/api' , (req, res) => {
-  res.send('Hello World!')
-})
 app.use("/api", limiter);
+
+
+
+// Public endpoint: the frontend checks whether a session already exists.
+app.get("/api/access/status", (req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.json({ verified: req.session.turnstileVerified === true });
+});
+
+// Public endpoint: exchange a fresh Turnstile token for a server session.
+app.post("/api/access/verify", async (req, res) => {
+  res.set("Cache-Control", "no-store");
+
+  const token = req.body?.token;
+
+  if (typeof token !== "string" || token.length === 0 || token.length > 2048) {
+    return res.status(400).json({ error: "A valid Turnstile token is required." });
+  }
+
+  try {
+    const response = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          secret: process.env.TURNSTILE_SECRET_KEY,
+          response: token,
+        }),
+        signal: AbortSignal.timeout(10000),
+      }
+    );
+
+    if (!response.ok) {
+      return res.status(502).json({ error: "Verification service unavailable." });
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+      console.warn("Turnstile rejected token:", result["error-codes"]);
+      return res.status(403).json({ error: "Verification failed. Please try again." });
+    }
+
+    // Ensure the token was issued for the expected hostname.
+    const expectedHostname = process.env.TURNSTILE_EXPECTED_HOSTNAME;
+
+    // if (
+    //   expectedHostname &&
+    //   result.hostname?.toLowerCase() !== expectedHostname.toLowerCase()
+    // ) {
+    //   return res.status(403).json({ error: "Unexpected verification hostname." });
+    // }
+
+    // Rotate the session ID to prevent session fixation.
+    req.session.regenerate((err) => {
+      if (err) {
+        return res.status(500).json({ error: "Could not create access session." });
+      }
+
+      req.session.turnstileVerified = true;
+
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          return res.status(500).json({ error: "Could not save access session." });
+        }
+
+        return res.json({ verified: true });
+      });
+    });
+  } catch (err) {
+    console.error("Turnstile verification service error:", err);
+    return res.status(502).json({ error: "Could not contact verification service." });
+  }
+});
+
+function requireTurnstileSession(req, res, next) {
+  if (req.session?.turnstileVerified === true) {
+    return next();
+  }
+
+  return res.status(403).json({ error: "Complete verification to continue." });
+}
+
+app.use("/api", requireTurnstileSession);
 
 //return user profile data
 app.get('/api/user/:name', async (req, res) => {
@@ -317,6 +426,8 @@ app.get('/api/post/:id', async (req, res) => {
 app.post('/api/:postId/newComment', async (req, res) => {
   const { postId } = req.params;
   const { comment, userId } = req.body;
+  console.log(`Received new comment for postId=${postId}, userId=${userId}, comment=${comment}`);
+  let userName = null;
   try {
     const userName = await prisma.user.findFirst({
     where: {
@@ -327,8 +438,8 @@ app.post('/api/:postId/newComment', async (req, res) => {
   catch (error) {
     console.error('Error fetching user name:', error);
   }
-  console.log('got username', userName)
   try {
+    console.log('got username', userName)
     const newComment = await prisma.comment.create({
       data: {
         comment: comment,
@@ -712,12 +823,17 @@ app.post('/api/create-account', async (req, res) => {
       })
       if (!user){
           console.log(" user was not found, creating user")
-          newuser = await prisma.user.create({
-            //const hashedPassword = await bcrypt.hash(password, 10);
-            data: {
-              email, name, password: hashedPassword
-            }
-          });
+          try {
+            
+            newuser = await prisma.user.create({
+              //const hashedPassword = await bcrypt.hash(password, 10);
+              data: {
+                email, name, password: hashedPassword
+              }
+            });
+          } catch (error) {
+            console.error('Error creating user:', error);
+          }
         res.status(201).json({ message: 'User created successfully', newuser });
       } else {
         return res.status(400).json({ error: 'User already exists' })
@@ -766,8 +882,9 @@ app.post('/api/my-posts', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
-  
+ 
   try {
+    
     let user = await prisma.user.findUnique({
       where: { email },
     });

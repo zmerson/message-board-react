@@ -35,25 +35,27 @@ const BoardList: React.FunctionComponent = () => {
   }, []);
 
   const handleApiError = (error: any) => {
-    if (error.response.status === 401) {
-      console.log('unauthorized');
-    } else if (error.response.status === 403) {
-      console.log('forbidden');
-    } else if (error.response.status === 404) {
-      console.log('not found');
-    } else if (error.response.status === 429) {
-      console.log('too many requests');
-    } else if (error.response.status === 500) {
-      console.log('server error');
-    } else if (error.response.status === 503) {
-      console.log('service unavailable');
-    } else if (error.response.status === 504) {
-      console.log('gateway timeout');
+      if (error.response) {
+        if (error.response.status === 401) {
+          console.log('unauthorized');
+        } else if (error.response.status === 403) {
+          console.log('forbidden');
+        } else if (error.response.status === 404) {
+          console.log('not found');
+        } else if (error.response.status === 429) {
+          console.log('too many requests');
+        } else if (error.response.status === 500) {
+          console.log('server error');
+        } else if (error.response.status === 503) {
+          console.log('service unavailable');
+        } else if (error.response.status === 504) {
+          console.log('gateway timeout');
+        }
+      }
     }
-  }
-  if (!boards){
-    return <div>Loading..</div>
-  }
+    if (!boards){
+      return <div>Loading..</div>
+    }
   return (
     <div className='w-full flex flex-col items-center'>
       <div className='bg-slate-950 mt-2 w-fit flex flex-col items-center p-5 rounded'>

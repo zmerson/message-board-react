@@ -85,13 +85,16 @@ const PostPage: React.FunctionComponent = () => {
 
     if (user) {
       try {
+        console.log("submitting comment for postId=", id, "userId=", user.id, "comment=", comment)
         const response = await axios.post(`/${id}/newComment`, {
           comment: comment,
           postId: id,
           userId: user.id,
         });
+        console.log("comment submitted successfully", response.data);
         window.location.reload(); 
       } catch (error) {
+        console.log("error submitting comment", error)
       }
     }
   };
