@@ -5,6 +5,10 @@ import Cookies from 'js-cookie';
 import { useAuth  } from '../../auth/authContext'
 import Container from '../templates/container';
 import { buttonTW } from '../../styles/styles';
+import {Turnstile} from '@marsidev/react-turnstile';
+
+
+const siteKey: string = import.meta.env.VITE_TURNSTILE_SITE_KEY ?? '';
 
 const SignInComponent = () => {
   let errorMsg = '';
@@ -12,6 +16,7 @@ const SignInComponent = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isAuthenticated, setAuthenticated] = useState(false);
+
     // const { authenticated, signIn } = useAuth()
     const authContext = useAuth()
     const { state } = useLocation();
