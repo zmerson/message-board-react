@@ -7,7 +7,7 @@ import { CardContainer, CopilotButton, MainContentContainer, PageHeader, buttonT
 import BoardInfo from '../nav-bar/rightSideBar';
 import PostLink, { Post } from '../post/postlink';
 import PostPage from '../post/postPage';
-import { Role} from '@prisma/client';
+import type { Role } from "../../../generated/prisma/browser";
 import { BoardData } from '../board-list/boardList';
 import { BoardContext } from './boardContext';
 // import './styles.tsx';

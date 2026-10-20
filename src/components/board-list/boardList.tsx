@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { CardContainer, MainContentContainer } from '../../styles/styles';
 import BoardListItem from './boardListItem';
-import { Board, Tag } from '@prisma/client';
+import type { Board, Tag } from "../../../generated/prisma/browser";
 import { Post } from '../post/postlink';
 import { List } from './boardListStyles';
 import Container from '../templates/container';

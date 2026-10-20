@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client"
 import { useAuth } from "../../auth/authContext"
 import React, { useEffect,  } from "react"
 import axios from "axios"

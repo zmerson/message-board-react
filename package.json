@@ -32,14 +32,10 @@
     "build-vite": "vite build",
     "preview-vite": "vite preview",
     "build:css": "tailwind build src/index.css -o src/output.css",
-    "start": "npm run start-react",
-    "start-react": "react-scripts start",
-    "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "server": "tsx server.js",
+    "build": "tsc -b && vite build",
     "dev": "concurrently \"npm run server\" \"npm run devvite\""
   },
   "eslintConfig": {

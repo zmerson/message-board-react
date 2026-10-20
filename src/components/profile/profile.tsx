@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { PrismaClient } from '@prisma/client';
 import { AuthContextProps, useAuth } from '../../auth/authContext'
 import { PageHeader, buttonTW } from '../../styles/styles';
 import BoardListItem from '../board-list/boardListItem';
-import { Comment, Post, User } from '@prisma/client';
-import { Profile as PrismaProfile} from '@prisma/client';
+import type { Comment, Post, User } from  "../../../generated/prisma/browser";
+import type { Profile as PrismaProfile} from  "../../../generated/prisma/browser";
 import { BoardData } from '../board-list/boardList';
 import { UserRolez } from '../board/board';
 import PostLink from '../post/postlink';

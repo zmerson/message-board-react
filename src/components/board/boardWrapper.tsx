@@ -24,7 +24,7 @@ export const BoardWrapper: React.FunctionComponent = () => {
     }
     return (
         <>
-        board ? {board} : <div>Loading board...</div>
+            {board ? <pre>{JSON.stringify(board, null, 2)}</pre> : <div>Loading board...</div>}
         </>
     );
     }

@@ -4,7 +4,7 @@ import { BoardData } from "./boardList"
 import { Link, NavLink } from "react-router-dom"
 import { ListItemContainer } from "./boardListStyles"
 import axios from "axios"
-import { Tag } from "@prisma/client"
+import type { Tag } from "../../../generated/prisma/browser"
 import TagLink from "../Tags/tagLink"
 import Container from "../templates/container"
 

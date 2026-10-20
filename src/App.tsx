@@ -25,9 +25,6 @@ axios.defaults.baseURL = '/api';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
-// Set default headers for all requests (e.g., for JWT authentication)
-//axios.defaults.headers.common['Authorization'] = 'Bearer ' + YOUR_JWT_TOKEN;
-
 const App: React.FunctionComponent = () => {
 
   const [checking, setChecking] = useState(true);
